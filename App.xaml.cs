@@ -15,7 +15,7 @@ public partial class App : Application
 
         AppHost = ApplicationHostBuilder.CreateDefaultBuilder(e.Args).Build();
 
-        MainWindow mainWindow = AppHost.Services.GetRequiredService<MainWindow>();
+        AuthorizationWindow mainWindow = AppHost.Services.GetRequiredService<AuthorizationWindow>();
         mainWindow.Show();
 
         await AppHost.StartAsync();

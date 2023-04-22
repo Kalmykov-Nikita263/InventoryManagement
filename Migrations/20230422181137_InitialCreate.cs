@@ -17,10 +17,10 @@ namespace InventoryManagement.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -31,21 +31,21 @@ namespace InventoryManagement.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,13 +56,13 @@ namespace InventoryManagement.Migrations
                 name: "Assets",
                 columns: table => new
                 {
-                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InventoryNumber = table.Column<string>(type: "nvarchar(12)", maxLength: 12, nullable: false),
-                    AssetType = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<double>(type: "float", nullable: false)
+                    AssetId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    InventoryNumber = table.Column<string>(type: "TEXT", maxLength: 12, nullable: false),
+                    AssetType = table.Column<int>(type: "INTEGER", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Location = table.Column<string>(type: "TEXT", nullable: false),
+                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    Price = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,11 +73,11 @@ namespace InventoryManagement.Migrations
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -94,11 +94,11 @@ namespace InventoryManagement.Migrations
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    ClaimType = table.Column<string>(type: "TEXT", nullable: true),
+                    ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -115,10 +115,10 @@ namespace InventoryManagement.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
+                    ProviderKey = table.Column<string>(type: "TEXT", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,8 +135,8 @@ namespace InventoryManagement.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,10 +159,10 @@ namespace InventoryManagement.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Value = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -179,12 +179,12 @@ namespace InventoryManagement.Migrations
                 name: "Inventories",
                 columns: table => new
                 {
-                    InventoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    InventoryNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    QuantityOnStock = table.Column<int>(type: "int", nullable: false),
-                    ActualQuantity = table.Column<int>(type: "int", nullable: false),
-                    AssetId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    InventoryId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    InventoryNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    QuantityOnStock = table.Column<int>(type: "INTEGER", nullable: false),
+                    ActualQuantity = table.Column<int>(type: "INTEGER", nullable: false),
+                    AssetId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -205,7 +205,7 @@ namespace InventoryManagement.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "E43DA02E-DA5C-4E35-BE9A-D2487C98A910", 0, "edc611eb-f3db-47fb-9e8f-5eb8dc35a47a", "SuperCompany@gmail.com", true, false, null, "SUPERCOMPANY@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEDTLGctNkvIjkRg7/pXu/idqgtAVhxVTl0a889LkjLZWW79xydUyO7JUW/EI/0QhFQ==", null, false, "", false, "admin" });
+                values: new object[] { "E43DA02E-DA5C-4E35-BE9A-D2487C98A910", 0, "416c3ba0-0c7c-46d3-948b-f7614882aed5", "SuperCompany@gmail.com", true, false, null, "SUPERCOMPANY@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAELrqjrr1k0Opt+oEPHCue+3GbYjPBXcQ6OUWIBgbXoyweM3WjuQSrf6s2f6QE6vmDw==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Assets",
@@ -228,10 +228,10 @@ namespace InventoryManagement.Migrations
                 columns: new[] { "InventoryId", "ActualQuantity", "AssetId", "InventoryNumber", "Name", "QuantityOnStock" },
                 values: new object[,]
                 {
-                    { new Guid("28d114d1-27e2-4593-bf3c-b48234ba678c"), 5, new Guid("43d1787f-ea86-4aaf-89ab-eec3b936d22a"), "386129104576", "Samsung Galaxy S23 8/128 Snapdragon 8 Gen 2", 5 },
-                    { new Guid("7cc2ba8e-e815-453b-9e7b-5e62e2056418"), 5, new Guid("267055a3-9493-4d75-be17-164f620f1dc7"), "332829934363", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
-                    { new Guid("814d2bf3-5ae9-48c8-b3e9-5901a113416d"), 5, new Guid("a29f676c-9df5-4dfa-91e6-590436f83293"), "499111487615", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
-                    { new Guid("d84d370e-39e7-4327-ad15-373cca088cc0"), 5, new Guid("01c8a12c-f97a-49bb-855b-12d4a8328190"), "698754333121", "Samsung Galaxy S22 8/256 Snapdragon 8 Gen 1", 5 }
+                    { new Guid("21c8f8bd-e656-4591-8afd-72183662f083"), 5, new Guid("43d1787f-ea86-4aaf-89ab-eec3b936d22a"), "386129104576", "Samsung Galaxy S23 8/128 Snapdragon 8 Gen 2", 5 },
+                    { new Guid("4a367de4-614b-4e5d-bc29-80eca8a1bf56"), 5, new Guid("267055a3-9493-4d75-be17-164f620f1dc7"), "332829934363", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
+                    { new Guid("7409b99c-f206-4f80-acf2-a289c9264a2c"), 5, new Guid("a29f676c-9df5-4dfa-91e6-590436f83293"), "499111487615", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
+                    { new Guid("c653ca14-40c1-4c41-b1c7-4ccacebb894a"), 5, new Guid("01c8a12c-f97a-49bb-855b-12d4a8328190"), "698754333121", "Samsung Galaxy S22 8/256 Snapdragon 8 Gen 1", 5 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -243,8 +243,7 @@ namespace InventoryManagement.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
                 column: "NormalizedName",
-                unique: true,
-                filter: "[NormalizedName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserClaims_UserId",
@@ -270,8 +269,7 @@ namespace InventoryManagement.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
-                unique: true,
-                filter: "[NormalizedUserName] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Inventories_AssetId",

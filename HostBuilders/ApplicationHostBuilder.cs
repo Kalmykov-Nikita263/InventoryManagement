@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using InventoryManagement.Services.Abstractions;
+using InventoryManagement.Services.Implementations;
 
 namespace InventoryManagement.HostBuilders;
 
@@ -19,13 +21,14 @@ public class ApplicationHostBuilder
             
             services.AddTransient<IInventoryRepository, EFInventoryRepository>();
             services.AddTransient<IAssetRepository, EFAssetRepository>();
+            services.AddTransient<IAuthorizationService, AuthorizationService>();
             services.AddTransient<DataManager>();
 
-            services.AddSingleton<MainWindow>();
+            services.AddSingleton<AuthorizationWindow>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(ConfigurationHelper.DefaultConnection);
+                options.UseSqlite(ConfigurationHelper.DefaultConnection);
             });
 
             services.AddDefaultIdentity<IdentityUser>()
