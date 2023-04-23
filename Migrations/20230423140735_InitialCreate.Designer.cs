@@ -11,14 +11,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230422181137_InitialCreate")]
+    [Migration("20230423140735_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true);
 
             modelBuilder.Entity("InventoryManagement.Domain.Entities.Asset", b =>
                 {
@@ -128,7 +132,7 @@ namespace InventoryManagement.Migrations
                     b.HasData(
                         new
                         {
-                            InventoryId = new Guid("c653ca14-40c1-4c41-b1c7-4ccacebb894a"),
+                            InventoryId = new Guid("7fb07785-d92a-4509-92f1-4100ce54be27"),
                             ActualQuantity = 5,
                             AssetId = new Guid("01c8a12c-f97a-49bb-855b-12d4a8328190"),
                             InventoryNumber = "698754333121",
@@ -137,7 +141,7 @@ namespace InventoryManagement.Migrations
                         },
                         new
                         {
-                            InventoryId = new Guid("21c8f8bd-e656-4591-8afd-72183662f083"),
+                            InventoryId = new Guid("941a623d-bc1b-407b-b5e9-88c08171fa29"),
                             ActualQuantity = 5,
                             AssetId = new Guid("43d1787f-ea86-4aaf-89ab-eec3b936d22a"),
                             InventoryNumber = "386129104576",
@@ -146,7 +150,7 @@ namespace InventoryManagement.Migrations
                         },
                         new
                         {
-                            InventoryId = new Guid("7409b99c-f206-4f80-acf2-a289c9264a2c"),
+                            InventoryId = new Guid("3ddcc02f-f66c-47cf-84e5-e0e2d62fe4e2"),
                             ActualQuantity = 5,
                             AssetId = new Guid("a29f676c-9df5-4dfa-91e6-590436f83293"),
                             InventoryNumber = "499111487615",
@@ -155,7 +159,7 @@ namespace InventoryManagement.Migrations
                         },
                         new
                         {
-                            InventoryId = new Guid("4a367de4-614b-4e5d-bc29-80eca8a1bf56"),
+                            InventoryId = new Guid("415ce6ac-c3e6-4392-8e8c-55ac72004c01"),
                             ActualQuantity = 5,
                             AssetId = new Guid("267055a3-9493-4d75-be17-164f620f1dc7"),
                             InventoryNumber = "332829934363",
@@ -289,13 +293,13 @@ namespace InventoryManagement.Migrations
                         {
                             Id = "E43DA02E-DA5C-4E35-BE9A-D2487C98A910",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "416c3ba0-0c7c-46d3-948b-f7614882aed5",
+                            ConcurrencyStamp = "9de2abe9-4ef9-47e6-8a6e-a0f0eafe634b",
                             Email = "SuperCompany@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERCOMPANY@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAELrqjrr1k0Opt+oEPHCue+3GbYjPBXcQ6OUWIBgbXoyweM3WjuQSrf6s2f6QE6vmDw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBK5c+dSevQyMmn7lLy51nyMM2nuiISsEe0Tf5usKRHfrLIrHgL7Qu2sm8Tu/YsbnA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

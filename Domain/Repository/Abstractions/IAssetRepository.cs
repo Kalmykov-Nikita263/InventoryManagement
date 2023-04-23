@@ -1,12 +1,12 @@
 ﻿using InventoryManagement.Domain.Entities;
-using System.Linq;
 using System;
+using System.Collections.Generic;
 
 namespace InventoryManagement.Domain.Repository.Abstractions;
 
 public interface IAssetRepository
 {
-    IQueryable<Asset> GetAllAssets();
+    IEnumerable<Asset> GetAllAssets();
 
     Asset GetAssetById(Guid id);
 

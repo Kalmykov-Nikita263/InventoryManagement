@@ -1,6 +1,7 @@
 ﻿<Window x:Class="InventoryManagement.AuthorizationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
         WindowStartupLocation="CenterScreen"
         Title="Авторизация" Height="350" Width="525">
 

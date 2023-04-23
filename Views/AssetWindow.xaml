@@ -1,0 +1,102 @@
+﻿<Window x:Class="InventoryManagement.Views.AssetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:conv="clr-namespace:InventoryManagement.Helpers"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Имущество" Height="600" Width="800">
+
+    <Window.Resources>
+        <conv:AssetTypeConverter x:Key="AssetTypeConverter" />
+    </Window.Resources>
+
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="677*"/>
+            <ColumnDefinition Width="123*"/>
+        </Grid.ColumnDefinitions>
+        <!-- UI элементы для считывания штрихкода и ввода данных -->
+        <Label Content="Штрихкод:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" />
+        <TextBox x:Name="txtBarcode" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,14,0,0" Width="200" />
+
+        <!-- Кнопка для сканирования штрихкода -->
+        <Button x:Name="btnScan" Content="Сканировать" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="319,13,0,0" Width="81" Height="19" Click="btnScan_Click"/>
+
+        <!--Кнопка назад-->
+        <Button x:Name="btnToPrevios" Content="Назад" HorizontalAlignment="Right" VerticalAlignment="Top" Width="60" Height="20" Margin="0,12,10,0" Click="btnToPrevios_Click" />
+
+        <Label Content="Название:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" />
+        <TextBox x:Name="txtName" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,44,0,0" Width="200" />
+        <Label Content="Тип:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,75,0,0" />
+        <ComboBox x:Name="cmbType" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,75,0,0" Width="200">
+            <ComboBoxItem Content="Движимое" />
+            <ComboBoxItem IsSelected="True" Content="Недвижимое" />
+        </ComboBox>
+        <Label Content="Местоположение:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,110,0,0" />
+        <TextBox x:Name="txtLocation" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="130,110,0,0" Width="170" />
+        <Label Content="Количество:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,145,0,0" />
+        <TextBox x:Name="txtQuantity" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,145,0,0" Width="200" />
+        <Label Content="Цена:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,180,0,0" />
+        <TextBox x:Name="txtPrice" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,180,0,0" Width="200" />
+
+        <!-- Кнопка для добавления данных в таблицу -->
+        <Button x:Name="btnAdd" Content="Добавить" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,220,0,0" Click="btnAdd_Click" />
+
+        <!-- Таблица для отображения данных -->
+        <DataGrid x:Name="dgAssets" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,260,0,0" AutoGenerateColumns="False" Grid.ColumnSpan="2" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Идентификатор" Binding="{Binding AssetId}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Инвентарный номер" Binding="{Binding InventoryNumber}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Тип" Binding="{Binding AssetType, Converter={StaticResource AssetTypeConverter}}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Местоположение" Binding="{Binding Location}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Количество" Binding="{Binding Quantity}" Width="*" />
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*" />
+                <DataGridTemplateColumn Header="Действия">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="btnEdit" Content="Изменить" Command="{Binding DataContext.EditCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}" Margin="5" Click="btnEdit_Click" />
+                                <Button x:Name="btnDelete" Content="Удалить" Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}" Margin="5" Click="btnDelete_Click" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+    
+
+</Window>

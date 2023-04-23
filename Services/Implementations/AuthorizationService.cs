@@ -15,6 +15,25 @@ public class AuthorizationService : IAuthorizationService
         _signInManager = signInManager;
     }
 
+    public async Task<bool> CheckRoleIsAdministrator(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+
+        if (user != null && await _userManager.IsInRoleAsync(user, "admin")) 
+        { 
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public async Task<string> GetUserNameAsync(string username)
+    {
+        var user = await _userManager.FindByNameAsync(username);
+        return user.UserName ?? ""; 
+    }
+
     public async Task<bool> LoginPasswordSignInAsync(string username, string password)
     {
         var user = await _userManager.FindByNameAsync(username);

@@ -1,6 +1,8 @@
 ﻿using InventoryManagement.Domain.Entities;
 using InventoryManagement.Domain.Repository.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace InventoryManagement.Domain.Repository.EntityFramework;
@@ -15,26 +17,33 @@ public class EFAssetRepository : IAssetRepository
         _context = context;
     }
 
-    public IQueryable<Asset> GetAllAssets()
-        => _context.Assets;
+    public IEnumerable<Asset> GetAllAssets()
+        => _context.Assets.ToList();
 
     public Asset GetAssetById(Guid id)
         => _context.Assets.FirstOrDefault(x => x.AssetId == id);
 
     public void SaveAsset(Asset asset)
     {
-        if (asset.AssetId == default)
-            _context.Entry(asset).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+        var existingAsset = _context.Assets.Find(asset.AssetId);
 
+        if (existingAsset != null)
+            _context.Entry(existingAsset).CurrentValues.SetValues(asset);
+        
         else
-            _context.Entry(asset).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
+            _context.Entry(asset).State = EntityState.Added;
+        
         _context.SaveChanges();
     }
 
     public void DeleteAsset(Guid id)
     {
-        _context.Assets.Remove(new Asset { AssetId = id });
-        _context.SaveChanges();
+        var assetToDelete = _context.Assets.Find(id); 
+        
+        if (assetToDelete != null) 
+        { 
+            _context.Assets.Remove(assetToDelete); 
+            _context.SaveChanges(); 
+        } 
     }
 }

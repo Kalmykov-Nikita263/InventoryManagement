@@ -205,7 +205,7 @@ namespace InventoryManagement.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "E43DA02E-DA5C-4E35-BE9A-D2487C98A910", 0, "416c3ba0-0c7c-46d3-948b-f7614882aed5", "SuperCompany@gmail.com", true, false, null, "SUPERCOMPANY@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAELrqjrr1k0Opt+oEPHCue+3GbYjPBXcQ6OUWIBgbXoyweM3WjuQSrf6s2f6QE6vmDw==", null, false, "", false, "admin" });
+                values: new object[] { "E43DA02E-DA5C-4E35-BE9A-D2487C98A910", 0, "9de2abe9-4ef9-47e6-8a6e-a0f0eafe634b", "SuperCompany@gmail.com", true, false, null, "SUPERCOMPANY@GMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEBK5c+dSevQyMmn7lLy51nyMM2nuiISsEe0Tf5usKRHfrLIrHgL7Qu2sm8Tu/YsbnA==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Assets",
@@ -228,10 +228,10 @@ namespace InventoryManagement.Migrations
                 columns: new[] { "InventoryId", "ActualQuantity", "AssetId", "InventoryNumber", "Name", "QuantityOnStock" },
                 values: new object[,]
                 {
-                    { new Guid("21c8f8bd-e656-4591-8afd-72183662f083"), 5, new Guid("43d1787f-ea86-4aaf-89ab-eec3b936d22a"), "386129104576", "Samsung Galaxy S23 8/128 Snapdragon 8 Gen 2", 5 },
-                    { new Guid("4a367de4-614b-4e5d-bc29-80eca8a1bf56"), 5, new Guid("267055a3-9493-4d75-be17-164f620f1dc7"), "332829934363", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
-                    { new Guid("7409b99c-f206-4f80-acf2-a289c9264a2c"), 5, new Guid("a29f676c-9df5-4dfa-91e6-590436f83293"), "499111487615", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
-                    { new Guid("c653ca14-40c1-4c41-b1c7-4ccacebb894a"), 5, new Guid("01c8a12c-f97a-49bb-855b-12d4a8328190"), "698754333121", "Samsung Galaxy S22 8/256 Snapdragon 8 Gen 1", 5 }
+                    { new Guid("3ddcc02f-f66c-47cf-84e5-e0e2d62fe4e2"), 5, new Guid("a29f676c-9df5-4dfa-91e6-590436f83293"), "499111487615", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
+                    { new Guid("415ce6ac-c3e6-4392-8e8c-55ac72004c01"), 5, new Guid("267055a3-9493-4d75-be17-164f620f1dc7"), "332829934363", "Samsung Galaxy S23 8/256 Snapdragon 8 Gen 2", 5 },
+                    { new Guid("7fb07785-d92a-4509-92f1-4100ce54be27"), 5, new Guid("01c8a12c-f97a-49bb-855b-12d4a8328190"), "698754333121", "Samsung Galaxy S22 8/256 Snapdragon 8 Gen 1", 5 },
+                    { new Guid("941a623d-bc1b-407b-b5e9-88c08171fa29"), 5, new Guid("43d1787f-ea86-4aaf-89ab-eec3b936d22a"), "386129104576", "Samsung Galaxy S23 8/128 Snapdragon 8 Gen 2", 5 }
                 });
 
             migrationBuilder.CreateIndex(

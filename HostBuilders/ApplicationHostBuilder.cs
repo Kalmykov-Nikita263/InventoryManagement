@@ -22,13 +22,14 @@ public class ApplicationHostBuilder
             services.AddTransient<IInventoryRepository, EFInventoryRepository>();
             services.AddTransient<IAssetRepository, EFAssetRepository>();
             services.AddTransient<IAuthorizationService, AuthorizationService>();
+            
             services.AddTransient<DataManager>();
 
             services.AddSingleton<AuthorizationWindow>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlite(ConfigurationHelper.DefaultConnection);
+                options.UseLazyLoadingProxies().UseSqlite(ConfigurationHelper.DefaultConnection);
             });
 
             services.AddDefaultIdentity<IdentityUser>()
