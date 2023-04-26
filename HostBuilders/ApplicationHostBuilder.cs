@@ -22,7 +22,8 @@ public class ApplicationHostBuilder
             services.AddTransient<IInventoryRepository, EFInventoryRepository>();
             services.AddTransient<IAssetRepository, EFAssetRepository>();
             services.AddTransient<IAuthorizationService, AuthorizationService>();
-            
+            services.AddTransient<IUserService, UserService>();
+
             services.AddTransient<DataManager>();
 
             services.AddSingleton<AuthorizationWindow>();
@@ -32,9 +33,8 @@ public class ApplicationHostBuilder
                 options.UseLazyLoadingProxies().UseSqlite(ConfigurationHelper.DefaultConnection);
             });
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
         });
 }

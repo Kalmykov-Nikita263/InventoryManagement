@@ -17,9 +17,9 @@
         <Label x:Name="lbWelcome" Content="" HorizontalAlignment="Center" Margin="40"></Label>
         
         <StackPanel VerticalAlignment="Center" Margin="0,0,0,20">
-            <Button x:Name="btnInventories" Content="Инвентаризация" Width="200" Height="40" Margin="0,0,0,10"/>
-            <Button x:Name="btnAssets" Content="Имущество" Width="200" Height="40" Margin="0,0,0,10"/>
-            <Button x:Name="btnExit" Content="Выход" Width="200" Height="40"/>
+            <Button x:Name="btnInventories" Content="Инвентаризация" Width="200" Height="40" Margin="0,0,0,10" Click="btnInventories_Click"/>
+            <Button x:Name="btnAssets" Content="Имущество" Width="200" Height="40" Margin="0,0,0,10" Click="btnAssets_Click"/>
+            <Button x:Name="btnExit" Content="Выход" Width="200" Height="40" Click="btnExit_Click"/>
         </StackPanel>
 
     </Grid>

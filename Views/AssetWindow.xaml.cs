@@ -1,6 +1,7 @@
 ﻿using InventoryManagement.Domain;
 using InventoryManagement.Domain.Entities;
 using InventoryManagement.Domain.Types;
+using InventoryManagement.Services.Abstractions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -12,19 +13,24 @@ namespace InventoryManagement.Views;
 
 public partial class AssetWindow : Window
 {
-    private ObservableCollection<Asset> _assets;
+    private readonly ObservableCollection<Asset> _assets;
 
     private readonly DataManager _dataManager;
+    private readonly IUserService _userService;
 
     private static int _quantity;
 
     private static double _price;
 
-    public AssetWindow(DataManager dataManager)
+    public string Role { get; set; }
+
+    public AssetWindow(DataManager dataManager,IUserService userService)
     {
         InitializeComponent();
         
         _dataManager = dataManager;
+        _userService = userService;
+
         _assets = new(_dataManager.Assets.GetAllAssets().OrderBy(x => x.Name));
 
         dgAssets.ItemsSource = _assets;
@@ -86,14 +92,25 @@ public partial class AssetWindow : Window
 
     private void btnToPrevios_Click(object sender, RoutedEventArgs e)
     {
-        MiddleWindowAdministrator windowAdministrator = new(_dataManager);
-        windowAdministrator.Show();
+        if (Role == "admin")
+        {
+            MiddleWindowAdministrator windowAdministrator = new(_dataManager, _userService);
+            windowAdministrator.Show();
+            Close();
+            return;
+        }
+
+        MiddleWindow middleWindow = new(_userService, _dataManager)
+        {
+            UserName = "user"
+        };
+        middleWindow.Show();
         Close();
     }
 
     private void btnEdit_Click(object sender, RoutedEventArgs e)
     {
-        EditAssetWindow editAsset = new(_dataManager, Guid.Parse((string) dgAssets.Columns[0].GetCellContent(dgAssets.SelectedItem).GetValue(TextBlock.TextProperty)));
+        EditAssetWindow editAsset = new(_dataManager, Guid.Parse((string) dgAssets.Columns[0].GetCellContent(dgAssets.SelectedItem).GetValue(TextBlock.TextProperty)), _userService);
 
         editAsset.txtInventoryNumber.Text = (string) dgAssets.Columns[1].GetCellContent(dgAssets.SelectedItem).GetValue(TextBlock.TextProperty);
 

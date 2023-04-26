@@ -27,13 +27,6 @@ public class AuthorizationService : IAuthorizationService
         return false;
     }
 
-
-    public async Task<string> GetUserNameAsync(string username)
-    {
-        var user = await _userManager.FindByNameAsync(username);
-        return user.UserName ?? ""; 
-    }
-
     public async Task<bool> LoginPasswordSignInAsync(string username, string password)
     {
         var user = await _userManager.FindByNameAsync(username);

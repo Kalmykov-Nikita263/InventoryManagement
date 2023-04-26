@@ -1,6 +1,7 @@
 ﻿using InventoryManagement.Domain;
 using InventoryManagement.Domain.Entities;
 using InventoryManagement.Domain.Types;
+using InventoryManagement.Services.Abstractions;
 using System;
 using System.Windows;
 
@@ -9,14 +10,16 @@ namespace InventoryManagement.Views
     public partial class EditAssetWindow : Window
     {
         private readonly DataManager _dataManager;
+        private readonly IUserService _userService;
 
         private readonly Guid _assetId;
 
-        public EditAssetWindow(DataManager dataManager, Guid assetId)
+        public EditAssetWindow(DataManager dataManager, Guid assetId, IUserService userService)
         {
             InitializeComponent();
             _dataManager = dataManager;
             _assetId = assetId;
+            _userService = userService;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -46,7 +49,7 @@ namespace InventoryManagement.Views
 
         private void NavigateToAssetWindow()
         {
-            AssetWindow assetWindow = new(_dataManager);
+            AssetWindow assetWindow = new(_dataManager, _userService);
             assetWindow.Show();
             Close();
         }

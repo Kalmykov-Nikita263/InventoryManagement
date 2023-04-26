@@ -1,5 +1,6 @@
 ﻿using InventoryManagement.Domain;
 using InventoryManagement.Domain.Entities;
+using InventoryManagement.Services.Abstractions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -14,16 +15,20 @@ public partial class InventoryWindow : Window
     private ObservableCollection<Inventory> _inventories;
 
     private readonly DataManager _dataManager;
+    private readonly IUserService _userService;
 
     private static int _quantityOnStock;
 
     private static int _actualQuantity;
 
-    public InventoryWindow(DataManager dataManager)
+    public string Role { get; set; }
+
+    public InventoryWindow(DataManager dataManager, IUserService userService)
     {
         InitializeComponent();
 
         _dataManager = dataManager;
+        _userService= userService;
 
         _inventories = new(_dataManager.Inventories.GetAllInventories().OrderBy(x => x.Name));
 
@@ -52,12 +57,24 @@ public partial class InventoryWindow : Window
                 MessageBox.Show("Введите число в поле \"Цена\"");
             }
         };
+        _userService = userService;
     }
 
     private void btnToPrevios_Click(object sender, RoutedEventArgs e)
     {
-        MiddleWindowAdministrator middleWindow = new(_dataManager);
-        middleWindow.Show();
+        if(Role == "admin")
+        {
+            MiddleWindowAdministrator middleWindow = new(_dataManager, _userService);
+            middleWindow.Show();
+            Close();
+            return;
+        }
+
+        MiddleWindow middle = new(_userService, _dataManager)
+        {
+            UserName = "user"
+        };
+        middle.Show();
         Close();
     }
 
@@ -97,7 +114,7 @@ public partial class InventoryWindow : Window
 
     private void btnEdit_Click(object sender, RoutedEventArgs e)
     {
-        EditInventoryWindow editInventory = new(_dataManager, Guid.Parse((string) dgInventory.Columns[0].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty)), Guid.Parse((string)dgInventory.Columns[5].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty)));
+        EditInventoryWindow editInventory = new(_dataManager, Guid.Parse((string) dgInventory.Columns[0].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty)), Guid.Parse((string)dgInventory.Columns[5].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty)), _userService);
 
         editInventory.txtInventoryNumber.Text = (string) dgInventory.Columns[1].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty);
 

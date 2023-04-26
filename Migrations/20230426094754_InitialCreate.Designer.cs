@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagement.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230423140735_InitialCreate")]
+    [Migration("20230426094754_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -132,7 +132,7 @@ namespace InventoryManagement.Migrations
                     b.HasData(
                         new
                         {
-                            InventoryId = new Guid("7fb07785-d92a-4509-92f1-4100ce54be27"),
+                            InventoryId = new Guid("951fd2a6-f0fd-4658-b917-52f28d5d8703"),
                             ActualQuantity = 5,
                             AssetId = new Guid("01c8a12c-f97a-49bb-855b-12d4a8328190"),
                             InventoryNumber = "698754333121",
@@ -141,7 +141,7 @@ namespace InventoryManagement.Migrations
                         },
                         new
                         {
-                            InventoryId = new Guid("941a623d-bc1b-407b-b5e9-88c08171fa29"),
+                            InventoryId = new Guid("234d9d68-ed68-4ebe-8efb-7a491e7f48a3"),
                             ActualQuantity = 5,
                             AssetId = new Guid("43d1787f-ea86-4aaf-89ab-eec3b936d22a"),
                             InventoryNumber = "386129104576",
@@ -150,7 +150,7 @@ namespace InventoryManagement.Migrations
                         },
                         new
                         {
-                            InventoryId = new Guid("3ddcc02f-f66c-47cf-84e5-e0e2d62fe4e2"),
+                            InventoryId = new Guid("2fcb7362-5131-4356-91e0-b88040cfd186"),
                             ActualQuantity = 5,
                             AssetId = new Guid("a29f676c-9df5-4dfa-91e6-590436f83293"),
                             InventoryNumber = "499111487615",
@@ -159,7 +159,7 @@ namespace InventoryManagement.Migrations
                         },
                         new
                         {
-                            InventoryId = new Guid("415ce6ac-c3e6-4392-8e8c-55ac72004c01"),
+                            InventoryId = new Guid("f572a347-390f-48d0-9a94-779053c51b6e"),
                             ActualQuantity = 5,
                             AssetId = new Guid("267055a3-9493-4d75-be17-164f620f1dc7"),
                             InventoryNumber = "332829934363",
@@ -199,6 +199,12 @@ namespace InventoryManagement.Migrations
                             Id = "994015C4-E1CE-4B39-8CA0-9D814FE9FDFE",
                             Name = "admin",
                             NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "67C7DFAA-E8BE-4663-A898-1E9E760FB17D",
+                            Name = "user",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -293,17 +299,32 @@ namespace InventoryManagement.Migrations
                         {
                             Id = "E43DA02E-DA5C-4E35-BE9A-D2487C98A910",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9de2abe9-4ef9-47e6-8a6e-a0f0eafe634b",
+                            ConcurrencyStamp = "0d8e2e7a-a1c8-4c66-a0dd-fa45f98c216e",
                             Email = "SuperCompany@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERCOMPANY@GMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBK5c+dSevQyMmn7lLy51nyMM2nuiISsEe0Tf5usKRHfrLIrHgL7Qu2sm8Tu/YsbnA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOuYkFVpysRAuAwbttzbWyS5mDigdULmczJVyHrgKHytBBVXU4Mig7uZygo977Kz7w==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = "AEF18E5C-02D5-4C59-8B69-0E6C3F350A28",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "f695a919-a212-4e1b-a44d-91e30e998837",
+                            Email = "UserTest@mail.ru",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedUserName = "USER",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIu1f8N77yxeeWi4fF8CsWeY4uCh8+Yn3Cg8phIZPk92nTLHokohBNHWob+bbG0SmA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "user"
                         });
                 });
 
@@ -371,6 +392,11 @@ namespace InventoryManagement.Migrations
                         {
                             UserId = "E43DA02E-DA5C-4E35-BE9A-D2487C98A910",
                             RoleId = "994015C4-E1CE-4B39-8CA0-9D814FE9FDFE"
+                        },
+                        new
+                        {
+                            UserId = "AEF18E5C-02D5-4C59-8B69-0E6C3F350A28",
+                            RoleId = "67C7DFAA-E8BE-4663-A898-1E9E760FB17D"
                         });
                 });
 

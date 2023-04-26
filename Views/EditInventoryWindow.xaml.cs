@@ -1,5 +1,6 @@
 ﻿using InventoryManagement.Domain;
 using InventoryManagement.Domain.Entities;
+using InventoryManagement.Services.Abstractions;
 using System;
 using System.Windows;
 
@@ -13,12 +14,15 @@ public partial class EditInventoryWindow : Window
 
     private readonly Guid _assetId;
 
-    public EditInventoryWindow(DataManager dataManager, Guid inventoryId, Guid assetId)
+    private readonly IUserService _userService;
+
+    public EditInventoryWindow(DataManager dataManager, Guid inventoryId, Guid assetId, IUserService userService)
     {
         InitializeComponent();
         _dataManager = dataManager;
         _inventoryId = inventoryId;
         _assetId = assetId;
+        _userService = userService;
     }
 
     private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -41,7 +45,7 @@ public partial class EditInventoryWindow : Window
 
     private void NavigateToInventoryWindow()
     {
-        InventoryWindow window = new(_dataManager);
+        InventoryWindow window = new(_dataManager, _userService);
         window.Show();
         Close();
     }
