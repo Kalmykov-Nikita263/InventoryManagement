@@ -4,6 +4,9 @@ using InventoryManagement.Domain.Types;
 
 namespace InventoryManagement.Domain.Entities;
 
+/// <summary>
+/// Класс, который представляет модель "Имущество"
+/// </summary>
 public class Asset
 {
     [Key]
@@ -14,6 +17,7 @@ public class Asset
     [MaxLength(12, ErrorMessage = "Строка должна содержать 12 символов")]
     public string InventoryNumber { get; set; }
 
+    //Тип имущества Движимое/Недвижимое
     [Required]
     public AssetType AssetType { get; set; }
 

@@ -4,10 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InventoryManagement.Domain.ModelConfiguration;
 
+/// <summary>
+/// Класс-конфигурация для пользователей
+/// </summary>
 public class UserConfiguration : IEntityTypeConfiguration<IdentityUser>
 {
     public void Configure(EntityTypeBuilder<IdentityUser> builder)
     {
+        //Создаём пользователей
         builder.HasData(
             new IdentityUser
             {

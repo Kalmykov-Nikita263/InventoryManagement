@@ -8,52 +8,60 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace InventoryManagement.Views
+namespace InventoryManagement.Views;
+
+/// <summary>
+/// Окно, которое содержит данные о всех пользователях системы
+/// </summary>
+public partial class UsersWindow : Window
 {
-    public partial class UsersWindow : Window
+    //Зависимости
+    private readonly DataManager _dataManager;
+    private readonly IUserService _userService;
+
+    //Коллекция для обновления интерфейса
+    private ObservableCollection<IdentityUser> _users;
+
+    //Внедрение зависимостей
+    public UsersWindow(IUserService userService, DataManager dataManager)
     {
-        private readonly DataManager _dataManager;
-        private readonly IUserService _userService;
+        InitializeComponent();
+        _userService = userService;
+        _dataManager = dataManager;
 
-        private ObservableCollection<IdentityUser> _users;
+        //Инициализируем данные пользователей на интерфейсе
+        InitializeDataAsync().GetAwaiter().GetResult();
+    }
 
-        public UsersWindow(IUserService userService, DataManager dataManager)
+    private async Task InitializeDataAsync()
+    {
+        var users = await _userService.GetAllUsersAsync();
+
+        _users = new(users.ToList());
+
+        dgUsers.ItemsSource = _users;
+
+        var newUser = new List<ApplicationUserHelper>();
+
+        foreach (var user in users)
         {
-            InitializeComponent();
-            _userService = userService;
-            _dataManager = dataManager;
-            InitializeDataAsync().GetAwaiter().GetResult();
-        }
-
-        public async Task InitializeDataAsync()
-        {
-            var users = await _userService.GetAllUsersAsync();
-
-            _users = new(users.ToList());
-
-            dgUsers.ItemsSource = _users;
-
-            var newUser = new List<ApplicationUserHelper>();
-
-            foreach (var user in users)
+            var roles = await _userService.GetAllRolesAsync(user.Id);
+            var userHelper = new ApplicationUserHelper
             {
-                var roles = await _userService.GetAllRolesAsync(user.Id);
-                var userHelper = new ApplicationUserHelper
-                {
-                    UserName = user.UserName,
-                    Email = user.Email,
-                    Role = roles.FirstOrDefault(x => x == "user")
-                };
+                UserName = user.UserName,
+                Email = user.Email,
+                Role = roles.FirstOrDefault(x => x == "user")
+            };
 
-                newUser.Add(userHelper);
-            }
+            newUser.Add(userHelper);
         }
+    }
 
-        private void btnToPrevious_Click(object sender, RoutedEventArgs e)
-        {
-            MiddleWindowAdministrator middleWindow = new MiddleWindowAdministrator(_dataManager, _userService);
-            middleWindow.Show();
-            Close();
-        }
+    //Кнопка, отвечающая за переход на предыдущее окно
+    private void btnToPrevious_Click(object sender, RoutedEventArgs e)
+    {
+        MiddleWindowAdministrator middleWindow = new MiddleWindowAdministrator(_dataManager, _userService);
+        middleWindow.Show();
+        Close();
     }
 }

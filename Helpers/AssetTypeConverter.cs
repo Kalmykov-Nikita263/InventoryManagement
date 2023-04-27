@@ -4,6 +4,9 @@ using System.Windows.Data;
 
 namespace InventoryManagement.Helpers;
 
+/// <summary>
+/// Класс, который переводит английские значения на русский язык
+/// </summary>
 public class AssetTypeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

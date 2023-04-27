@@ -11,10 +11,15 @@ using System.Windows.Media;
 
 namespace InventoryManagement.Views;
 
+/// <summary>
+/// Окно, которое содержит информацию об имуществе
+/// </summary>
 public partial class AssetWindow : Window
 {
+    //Коллекция для интерфейса
     private readonly ObservableCollection<Asset> _assets;
 
+    //Зависимости
     private readonly DataManager _dataManager;
     private readonly IUserService _userService;
 
@@ -24,6 +29,7 @@ public partial class AssetWindow : Window
 
     public string Role { get; set; }
 
+    //Внедрение зависимостей
     public AssetWindow(DataManager dataManager,IUserService userService)
     {
         InitializeComponent();
@@ -31,10 +37,13 @@ public partial class AssetWindow : Window
         _dataManager = dataManager;
         _userService = userService;
 
+        //Добавляем в коллекцию данные из БД
         _assets = new(_dataManager.Assets.GetAllAssets().OrderBy(x => x.Name));
 
+        //Выводим всё, что есть в коллекции на интерфейс
         dgAssets.ItemsSource = _assets;
 
+        //Валидация полей, чтобы писали корректные данные
         txtQuantity.LostFocus += (sender, e) =>
         {
             if (int.TryParse(txtQuantity.Text, out int quantity))
@@ -60,14 +69,15 @@ public partial class AssetWindow : Window
         };
     }
 
+    //Метод, который сканирует штрих-код
     private void btnScan_Click(object sender, RoutedEventArgs e)
     {
 
     }
 
+    //Метод, который отвечает за добавление новой записи в БД и в коллекцию
     private void btnAdd_Click(object sender, RoutedEventArgs e)
     {
-
         Asset asset = new()
         {
             InventoryNumber = txtBarcode.Text,
@@ -81,6 +91,7 @@ public partial class AssetWindow : Window
         _dataManager.Assets.SaveAsset(asset);
         _assets.Add(asset);
 
+        //Очищаем введённый текст из полей
         foreach (var control in MainGrid.Children)
         {
             if (control is TextBox box)
@@ -108,8 +119,10 @@ public partial class AssetWindow : Window
         Close();
     }
 
+    //Метод, который отвечает за переход на окно редактирования
     private void btnEdit_Click(object sender, RoutedEventArgs e)
     {
+        //Чтобы были не пустые поля в новом окне - собираем текущие данные записи, и передаём их окну
         EditAssetWindow editAsset = new(_dataManager, Guid.Parse((string) dgAssets.Columns[0].GetCellContent(dgAssets.SelectedItem).GetValue(TextBlock.TextProperty)), _userService);
 
         editAsset.txtInventoryNumber.Text = (string) dgAssets.Columns[1].GetCellContent(dgAssets.SelectedItem).GetValue(TextBlock.TextProperty);
@@ -126,10 +139,13 @@ public partial class AssetWindow : Window
         Close();
     }
 
+    //Метод, который отвечает за удаление записи
     private void btnDelete_Click(object sender, RoutedEventArgs e)
     {
+        //Получаем id записи
         Guid identifier = Guid.Parse((string) dgAssets.Columns[0].GetCellContent(dgAssets.SelectedItem).GetValue(TextBlock.TextProperty));
 
+        //Удаляем запись из БД и из списка
         _dataManager.Assets.DeleteAsset(identifier);
         _assets.Remove(_assets.FirstOrDefault(x => x.AssetId == identifier));
     }

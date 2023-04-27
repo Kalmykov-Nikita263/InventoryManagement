@@ -4,10 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InventoryManagement.Domain.ModelConfiguration;
 
+/// <summary>
+/// Класс-конфигурация для того, чтобы понимать кому принадлежит роль
+/// </summary>
 public class UserRoleConfiguration : IEntityTypeConfiguration<IdentityUserRole<string>>
 {
     public void Configure(EntityTypeBuilder<IdentityUserRole<string>> builder)
     {
+        //Сопоставляем Id роли с Id пользователя
         builder.HasData(
             new IdentityUserRole<string>
             {

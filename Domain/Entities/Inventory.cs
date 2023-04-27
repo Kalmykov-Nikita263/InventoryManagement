@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace InventoryManagement.Domain.Entities;
 
+/// <summary>
+/// Класс, который представляет модель "Инвентаризация"
+/// </summary>
 public class Inventory
 {
     [Key]

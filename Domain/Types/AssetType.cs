@@ -1,6 +1,6 @@
 ﻿namespace InventoryManagement.Domain.Types;
 
-//Перечисление для типа имущества. При создании модели не оказывает никаких эффектов
+//Перечисление для типа имущества
 public enum AssetType
 {
     Movable,

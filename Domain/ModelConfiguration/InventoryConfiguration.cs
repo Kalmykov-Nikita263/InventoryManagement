@@ -5,10 +5,14 @@ using System;
 
 namespace InventoryManagement.Domain.ModelConfiguration;
 
+/// <summary>
+/// Класс-конфигурация для модели "Инвентаризация"
+/// </summary>
 public class InventoryConfiguration : IEntityTypeConfiguration<Inventory>
 {
     public void Configure(EntityTypeBuilder<Inventory> builder)
     {
+        //Заполняем начальными данными
         builder.HasData(
             new Inventory
             {

@@ -2,6 +2,9 @@
 
 namespace InventoryManagement.Domain;
 
+/// <summary>
+/// Класс, предназначенный для работы с данными из БД
+/// </summary>
 public class DataManager
 {
     public IInventoryRepository Inventories { get; set; }

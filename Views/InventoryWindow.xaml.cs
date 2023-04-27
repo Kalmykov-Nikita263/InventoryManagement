@@ -10,10 +10,15 @@ using System.Windows.Media;
 
 namespace InventoryManagement.Views;
 
+/// <summary>
+/// Окно "Инвентаризация"
+/// </summary>
 public partial class InventoryWindow : Window
 {
+    //Коллекция, отвечающая за отображение элементов на интерфейсе
     private ObservableCollection<Inventory> _inventories;
 
+    //Зависимости
     private readonly DataManager _dataManager;
     private readonly IUserService _userService;
 
@@ -23,6 +28,7 @@ public partial class InventoryWindow : Window
 
     public string Role { get; set; }
 
+    //Внедрение зависимостей
     public InventoryWindow(DataManager dataManager, IUserService userService)
     {
         InitializeComponent();
@@ -30,10 +36,13 @@ public partial class InventoryWindow : Window
         _dataManager = dataManager;
         _userService= userService;
 
+        //Добавляем в коллекцию данные из БД
         _inventories = new(_dataManager.Inventories.GetAllInventories().OrderBy(x => x.Name));
 
+        //Выводим всё, что есть в коллекции на интерфейс
         dgInventory.ItemsSource = _inventories;
 
+        //Валидация полей, чтобы писали корректные данные
         txtQuantityOnStock.LostFocus += (sender, e) =>
         {
             if (int.TryParse(txtQuantityOnStock.Text, out int quantity))
@@ -57,12 +66,12 @@ public partial class InventoryWindow : Window
                 MessageBox.Show("Введите число в поле \"Цена\"");
             }
         };
-        _userService = userService;
     }
 
+    //Метод отв. за переход на пред. окно с навигацией
     private void btnToPrevios_Click(object sender, RoutedEventArgs e)
     {
-        if(Role == "admin")
+        if (Role == "admin")
         {
             MiddleWindowAdministrator middleWindow = new(_dataManager, _userService);
             middleWindow.Show();
@@ -78,11 +87,13 @@ public partial class InventoryWindow : Window
         Close();
     }
 
+    //Метод, который сканирует штрих-код
     private void btnScan_Click(object sender, RoutedEventArgs e)
     {
 
     }
 
+    //Метод, который отвечает за добавление новой записи в БД и в коллекцию
     private void btnAdd_Click(object sender, RoutedEventArgs e)
     {
         if(string.IsNullOrEmpty(txtAssetId.Text))
@@ -100,9 +111,11 @@ public partial class InventoryWindow : Window
             AssetId = Guid.Parse(txtAssetId.Text)
         };
 
+        //Сохраняем в БД, добавляем в коллекцию
         _dataManager.Inventories.SaveInventory(inventory);
         _inventories.Add(inventory);
 
+        //Очищаем введённый текст из полей
         foreach (var control in MainGrid.Children)
         {
             if (control is TextBox box)
@@ -112,8 +125,10 @@ public partial class InventoryWindow : Window
         }
     }
 
+    //Метод, который отвечает за переход на окно редактирования
     private void btnEdit_Click(object sender, RoutedEventArgs e)
     {
+        //Чтобы были не пустые поля в новом окне - собираем текущие данные записи, и передаём их окну
         EditInventoryWindow editInventory = new(_dataManager, Guid.Parse((string) dgInventory.Columns[0].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty)), Guid.Parse((string)dgInventory.Columns[5].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty)), _userService);
 
         editInventory.txtInventoryNumber.Text = (string) dgInventory.Columns[1].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty);
@@ -128,10 +143,13 @@ public partial class InventoryWindow : Window
         Close();
     }
 
+    //Метод, который отвечает за удаление записи
     private void btnDelete_Click(object sender, RoutedEventArgs e)
     {
+        //Получаем id записи
         Guid identifier = Guid.Parse((string) dgInventory.Columns[0].GetCellContent(dgInventory.SelectedItem).GetValue(TextBlock.TextProperty));
 
+        //Удаляем запись из БД и из списка
         _dataManager.Inventories.DeleteInventory(identifier);
         _inventories.Remove(_inventories.FirstOrDefault(x => x.InventoryId == identifier));
     }

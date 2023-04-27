@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace InventoryManagement.Services.Abstractions;
 
+/// <summary>
+/// Интерфейс для работы с пользователями/ролями 
+/// </summary>
 public interface IUserService
 {
     Task<IEnumerable<IdentityUser>> GetAllUsersAsync();

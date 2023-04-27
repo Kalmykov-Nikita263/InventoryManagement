@@ -6,8 +6,12 @@ using System.Windows;
 
 namespace InventoryManagement.Views;
 
+/// <summary>
+/// Окно для изменения информации о инвентаризации
+/// </summary>
 public partial class EditInventoryWindow : Window
 {
+    //Зависимости
     private readonly DataManager _dataManager;
 
     private readonly Guid _inventoryId;
@@ -16,6 +20,7 @@ public partial class EditInventoryWindow : Window
 
     private readonly IUserService _userService;
 
+    //Внедрение зависимостей
     public EditInventoryWindow(DataManager dataManager, Guid inventoryId, Guid assetId, IUserService userService)
     {
         InitializeComponent();
@@ -25,8 +30,10 @@ public partial class EditInventoryWindow : Window
         _userService = userService;
     }
 
+    //Метод, который сохраняет инвентаризацию в БД
     private void btnSave_Click(object sender, RoutedEventArgs e)
     {
+        //Создаём инвентаризацию. В поля записываем данные из формочки
         Inventory inventory = new()
         {
             InventoryId = _inventoryId,
@@ -37,9 +44,11 @@ public partial class EditInventoryWindow : Window
             AssetId = _assetId
         };
 
+        //Сохраняем в БД
         _dataManager.Inventories.SaveInventory(inventory);
         MessageBox.Show("Успешно");
 
+        //Возвращаемся на пред. окно
         NavigateToInventoryWindow();
     }
 

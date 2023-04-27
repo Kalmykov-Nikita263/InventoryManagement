@@ -4,10 +4,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InventoryManagement.Domain.ModelConfiguration;
 
+/// <summary>
+/// Класс-конфигурация для ролей
+/// </summary>
 public class RoleConfiguration : IEntityTypeConfiguration<IdentityRole>
 {
     public void Configure(EntityTypeBuilder<IdentityRole> builder)
     {
+        //Создаём роли в БД
         builder.HasData(
             new IdentityRole
             {

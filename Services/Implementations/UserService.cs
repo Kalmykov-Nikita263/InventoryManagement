@@ -9,6 +9,9 @@ using System.Windows;
 
 namespace InventoryManagement.Services.Implementations;
 
+/// <summary>
+/// Класс, предназначенный для управления пользователями
+/// </summary>
 public class UserService : IUserService
 {
     private readonly UserManager<IdentityUser> _userManager;
@@ -20,12 +23,26 @@ public class UserService : IUserService
         _roleManager = roleManager;
     }
 
+    /// <summary>
+    /// Получает имя пользователя из БД
+    /// </summary>
+    /// <param name="username"></param>
+    /// <returns></returns>
     public async Task<string> GetUserNameAsync(string username)
     {
+        //Ищем пользователя
         var user = await _userManager.FindByNameAsync(username);
+
+        //Если найден - возвращаем его имя, а если нет - пустую строку
         return user.UserName ?? "";
     }
 
+    /// <summary>
+    /// Метод, который создаёт пользователя и роль в БД
+    /// </summary>
+    /// <param name="user">Пользователь</param>
+    /// <param name="roleName">Имя роли</param>
+    /// <returns>Результат создания пользователя</returns>
     public async Task CreateUserAndRoleAsync(IdentityUser user, string roleName)
     {
         if (await _roleManager.FindByNameAsync(roleName) == null)
@@ -54,6 +71,11 @@ public class UserService : IUserService
         }
     }
 
+    /// <summary>
+    /// Метод, который возвращает список всех ролей пользователя
+    /// </summary>
+    /// <param name="userName">Имя пользователя</param>
+    /// <returns>Задача, которая содержит список ролей пользователя</returns>
     public async Task<IEnumerable<string>> GetAllRolesAsync(string userName)
     {
         var user = await _userManager.FindByNameAsync(userName);
@@ -62,23 +84,30 @@ public class UserService : IUserService
         {
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            if(userRoles != null)
+            if (userRoles != null)
                 return userRoles;
         }
 
         return Enumerable.Empty<string>();
     }
 
+    /// <summary>
+    /// Метод, который получает список всех пользователей в системе
+    /// </summary>
+    /// <returns>Задача, которая содержит список всех пользователей, в том числе с их ролями</returns>
     public async Task<IEnumerable<IdentityUser>> GetAllUsersAsync()
     {
-        var users = await _userManager.Users.ToListAsync();
+        //Получаем всех пользователей
+        List<IdentityUser> users = await _userManager.Users.ToListAsync();
         List<string> roles = new();
 
+        //Добавляем роли в список roles
         foreach (var user in users)
         {
             roles.AddRange(await _userManager.GetRolesAsync(user));
         }
 
+        //Склеиваем список пользователей со списком ролей. Получаем коллекцию объектов ApplicationUserHelper, который содержит Id, Имя, Роли и Email
         return users.Zip(roles, (user, role) => new ApplicationUserHelper
         {
             Id = user.Id,

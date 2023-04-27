@@ -4,15 +4,20 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace InventoryManagement.Domain.ModelConfiguration;
 
+/// <summary>
+/// Класс-конфигурация для модели "Имущество"
+/// </summary>
 public class AssetConfiguration : IEntityTypeConfiguration<Asset>
 {
     public void Configure(EntityTypeBuilder<Asset> builder)
     {
+        //Настраиваем связь с моделью "Инвентаризация", с типом связи 1 к 1
         builder.HasOne(x => x.Inventory)
             .WithOne(x => x.Asset)
             .HasForeignKey<Inventory>(x => x.AssetId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        //Заполняем начальными данными
         builder.HasData(
             new Asset
             {

@@ -4,11 +4,15 @@ using System.Windows;
 
 namespace InventoryManagement.Views
 {
+    /// <summary>
+    /// Навигационное окно администратора
+    /// </summary>
     public partial class MiddleWindowAdministrator : Window
     {
         private readonly DataManager _dataManager;
         private readonly IUserService _userService;
 
+        //Внедрение зависимостей
         public MiddleWindowAdministrator(DataManager dataManager, IUserService userService)
         {
             InitializeComponent();
@@ -16,6 +20,7 @@ namespace InventoryManagement.Views
             _userService = userService;
         }
 
+        //Методы отвечающие за навигацию на другие окна (Инвентаризация, Имущество и т.д.)
         private void btnInventories_Click(object sender, RoutedEventArgs e)
         {
             InventoryWindow inventoryWindow = new(_dataManager, _userService);
@@ -37,6 +42,7 @@ namespace InventoryManagement.Views
             Close();
         }
 
+        //Выход из приложения
         private void btnExit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
