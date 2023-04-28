@@ -4,10 +4,12 @@ using InventoryManagement.Domain.Types;
 using InventoryManagement.Services.Abstractions;
 using System;
 using System.Collections.ObjectModel;
+using System.IO.Ports;
 using System.Linq;
+using System.Management;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using USB_Barcode_Scanner;
 
 namespace InventoryManagement.Views;
 
@@ -27,6 +29,8 @@ public partial class AssetWindow : Window
 
     private static double _price;
 
+    private static string _portName;
+    
     public string Role { get; set; }
 
     //Внедрение зависимостей
@@ -51,7 +55,7 @@ public partial class AssetWindow : Window
 
             else
             {
-                txtQuantity.Background = Brushes.Red;
+                txtQuantity.Background = System.Windows.Media.Brushes.Red;
                 MessageBox.Show("Введите число в поле \"Количество\"");
             }
         };
@@ -63,16 +67,76 @@ public partial class AssetWindow : Window
 
             else
             {
-                txtPrice.Background = Brushes.Red;
+                txtPrice.Background = System.Windows.Media.Brushes.Red;
                 MessageBox.Show("Введите число в поле \"Цена\"");
             }
         };
+
+        foreach (var port in SerialPort.GetPortNames())
+            if (port.Contains("COM"))
+                _portName = port;
     }
 
     //Метод, который сканирует штрих-код
     private void btnScan_Click(object sender, RoutedEventArgs e)
     {
+        if(!isBarcodeScannerConnected())
+        {
+            MessageBox.Show("Сканер не подключен. Подключите сканер и попробуйте попытку снова");
+            return;
+        }
 
+        SerialPort serialPort = new SerialPort(_portName, 9600, Parity.None, 8, StopBits.One); // задаем настройки порта, к которому подключен сканер штрих-кода
+        serialPort.DataReceived += new SerialDataReceivedEventHandler(serialPort_DataReceived); // подписываемся на событие получения данных из порта
+        
+        serialPort.Open(); // открываем порт
+    }
+
+    private void serialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+    {
+        SerialPort serialPort = (SerialPort)sender; // получаем объект SerialPort для чтения данных
+        string barcode = serialPort.ReadLine(); // читаем данные, полученные со сканера штрих-кода
+
+        txtBarcode.Text = barcode;
+    }
+
+    private bool isBarcodeScannerConnected()
+    {
+        var ports = SerialPort.GetPortNames();
+
+        foreach(var port in ports)
+        {
+            if (!port.Contains("COM"))
+                return false;
+        }
+
+        using var sp = new SerialPort(_portName, 9600, Parity.None, 8, StopBits.One);
+
+        try
+        {
+            // Попытка открытия порта
+            sp.Open();
+            if (sp.IsOpen)
+            {
+                // Проверяем, отправка ли команды приведет к получению ответа от сканера
+                sp.Write("*IDN?\r\n");
+                System.Threading.Thread.Sleep(1000); // Ждем некоторое время для получения ответа
+                string response = sp.ReadExisting(); // Получаем ответ от устройства
+                if (response.Contains("barcode scanner"))
+                    return true; // Удачное подключение сканера
+            }
+        }
+        catch
+        {
+            // Ошибка при открытии порта
+            return false;
+        }
+        finally
+        {
+            sp.Close(); // Закрываем порт
+        }
+
+        return false;
     }
 
     //Метод, который отвечает за добавление новой записи в БД и в коллекцию

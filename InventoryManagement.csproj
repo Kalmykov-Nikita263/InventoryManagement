@@ -33,6 +33,18 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    <PackageReference Include="System.Management" Version="7.0.1" />
+    <PackageReference Include="ZXing.Net" Version="0.16.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\..\..\..\..\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\7.0.5\ref\net7.0\System.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="USB-Barcode-Scanner">
+      <HintPath>bin\Debug\net7.0-windows\USB-Barcode-Scanner.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
